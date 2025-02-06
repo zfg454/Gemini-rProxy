@@ -15,8 +15,6 @@ request_counts = {}
 
 password = str(os.environ.get('password', 'your_password'))
 
-#password = "513520951."
-
 def authenticate_request(request):
     auth_header = request.headers.get('Authorization')
 
