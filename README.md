@@ -46,14 +46,14 @@ pip install -r requirements.txt
 
 ```json
 {
-  "KeyArray": "AIzaSy...\nAIzaSy...\nAIzaSy...",  // 你的 Google API 密钥列表，每个密钥占一行
-  "MaxRetries": 3,            // 最大重试次数 (可选，默认 3)
-  "MaxRequests": 2,           // 每个密钥在速率限制窗口内的最大请求数 (可选，默认 2)
-  "LimitWindow": 60,          // 速率限制窗口大小（秒）(可选，默认 60)
-  "password": "your_password", // API 认证密码 (必需)
-  "PORT": 3000,               // 应用监听端口 (可选，默认 3000)
-  "http_proxy": "http://your_proxy:port", // HTTP 代理 (可选)
-  "https_proxy": "https://your_proxy:port" // HTTPS 代理 (可选)
+  "KeyArray": "AIzaSy...\nAIzaSy...\nAIzaSy...",  
+  "MaxRetries": 3,            
+  "MaxRequests": 2,           
+  "LimitWindow": 60,          
+  "password": "your_password", 
+  "PORT": 3000,               
+  "http_proxy": "http://your_proxy:port", 
+  "https_proxy": "https://your_proxy:port" 
 }
 ```
 
@@ -99,6 +99,10 @@ python app.py
 
 2.  **运行：**  将 `env.json` 或 `.env` 文件复制到 `dist` 目录下，与 `gemini-proxy.exe` 放在一起，然后双击运行 `gemini-proxy.exe`。
 
+### 注意
+
+*   根目录下的`./dist`文件夹中以打包好.exe文件，可直接使用，同样要注意`env.json` 或 `.env` 文件和.exe文件存在同一个文件夹中
+
 ### 5. 测试
 
 *   **访问测试页面：** 在浏览器中打开 `http://127.0.0.1:3000/` (如果使用了默认端口)。
@@ -106,7 +110,7 @@ python app.py
 
 ### 6. API 参考
 
-*   `/hf/v1/chat/completions`:  模拟 OpenAI Chat Completions API。
+*   `/hf/v1/chat/completions`:   OpenAI Chat Completions API。
 *   `/hf/v1/models`:  列出支持的 Gemini 模型。
 
 请求和响应格式与 OpenAI API 基本兼容，但请注意，本项目是 Gemini 模型的代理，而不是 OpenAI 服务的代理。
