@@ -120,7 +120,7 @@ python app.py
 
 *   **API 密钥安全：**  请妥善保管你的 Google API 密钥，不要将其泄露给他人。
 *   **速率限制：**  Google Gemini API 有速率限制。请根据你的 API 密钥配额和应用需求，合理配置 `MaxRequests` 和 `LimitWindow`。
-* **代理**：如果你的网络环境需要通过代理才能访问 Google API, 请务必设置 `http_proxy` 和 `https_proxy` 环境变量，或者确保系统代理设置正确。
+* **代理**：如果你的网络环境需要通过代理才能访问 Google API, 请务必设置 `http_proxy` 和 `https_proxy` 环境变量，或者确保系统代理设置正确。虽然代码中写了自动获取代理端口并进行自动使用，但以防万一，还是写好环境变量为好。
 
 ## 免责声明
 
