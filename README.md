@@ -2,7 +2,7 @@
 
 # Gemini Proxy
 
-[![GitHub license](https://img.shields.io/github/license/HerSophia/Gemini-rProxy)](https://github.com/HerSophia/Gemini-rProxy/blob/main/LICENSE)  <!-- 替换成你的 License -->
+[![GitHub license](https://img.shields.io/github/license/HerSophia/Gemini-rProxy)](https://github.com/HerSophia/Gemini-rProxy/blob/master/LICENSE)  <!-- 替换成你的 License -->
 
 ## 简介
 
