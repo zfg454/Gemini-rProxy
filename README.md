@@ -1,9 +1,8 @@
-好的，下面是一个 README.md 文件的草稿，总结了项目特性、使用方法、配置说明等：
 
 
 # Gemini Proxy
 
-[![GitHub license](https://img.shields.io/github/license/your_username/your_repository)](https://github.com/your_username/your_repository/blob/main/LICENSE)  <!-- 替换成你的 License -->
+[![GitHub license](https://img.shields.io/github/license/HerSophia/Gemini-rProxy)](https://github.com/HerSophia/Gemini-rProxy/blob/main/LICENSE)  <!-- 替换成你的 License -->
 
 ## 简介
 
@@ -29,12 +28,13 @@
 ### 2. 获取代码
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/HerSophia/Gemini-rProxy
 ```
 
 ### 3. 安装依赖
 
 ```bash
+cd Gemini-rProxy
 pip install -r requirements.txt
 ```
 

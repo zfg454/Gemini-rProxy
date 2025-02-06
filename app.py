@@ -64,19 +64,43 @@ safety_settings = [
 # 从 env.json 或 .env 加载环境变量
 def load_config():
     config = {}
+    key_array_from_json = None
+    key_array_from_env = None
+
+    # 尝试从 env.json 加载
     try:
         with open("env.json", "r") as f:
-            config = json.load(f)
-            # 处理 KeyArray 中的换行符
-            if "KeyArray" in config:
-                config["KeyArray"] = config["KeyArray"].splitlines()
+            config_json = json.load(f)
+            if "KeyArray" in config_json:
+                key_array_from_json = config_json["KeyArray"]
+                if isinstance(key_array_from_json, str):
+                    key_array_from_json = key_array_from_json.splitlines()
+                config.update(config_json)  # 使用 update 合并配置
     except FileNotFoundError:
-        from dotenv import load_dotenv
-        load_dotenv()
-        config = {key: os.environ.get(key) for key in ["KeyArray", "MaxRetries", "MaxRequests", "LimitWindow", "password", "PORT"]}
-        #处理KeyArray中的换行符
-        if "KeyArray" in config and config["KeyArray"]:
-            config["KeyArray"] = config["KeyArray"].splitlines()
+        pass
+
+    # 尝试从 .env 加载
+    from dotenv import load_dotenv
+    load_dotenv()
+    config_env = {key: os.environ.get(key) for key in
+                  ["KeyArray", "MaxRetries", "MaxRequests", "LimitWindow", "password", "PORT"]}
+    if "KeyArray" in config_env and config_env["KeyArray"]:
+        key_array_from_env = config_env["KeyArray"].splitlines()
+    config.update(config_env)  # 使用 update 合并配置
+
+    # 检查 KeyArray 是否都为 "your_key" 或缺失
+    if (key_array_from_json == "your_key" or (isinstance(key_array_from_json, list) and all(
+            k.strip() == "your_key" for k in key_array_from_json)) or key_array_from_json is None) and \
+            (key_array_from_env == "your_key" or (isinstance(key_array_from_env, list) and all(
+                k.strip() == "your_key" for k in key_array_from_env)) or key_array_from_env is None):
+        print("错误：请在 env.json 或 .env 文件中将 KeyArray 的值替换为您的 Google API 密钥。或检查是否有这两个文件。")
+        input("按 Enter 键退出...")
+        exit(1)
+
+    # 确保 KeyArray 是一个列表
+    if "KeyArray" in config and isinstance(config["KeyArray"], str):
+        config["KeyArray"] = config["KeyArray"].splitlines()
+
     return config
 
 config = load_config()
@@ -110,13 +134,13 @@ def get_system_proxy(url="http://example.com"):  # get_environ_proxies 需要一
 
 class APIKeyManager:
     def __init__(self):
-        # self.api_keys = re.findall(r"AIzaSy[a-zA-Z0-9_-]{33}", os.environ.get('KeyArray'))
-        #如果config["KeyArray"]是一个列表
         if isinstance(config["KeyArray"], list):
-            self.api_keys = [key for key in config["KeyArray"] if re.match(r"AIzaSy[a-zA-Z0-9_-]{33}", key)]
-        else: #否则按照原方法进行
-            self.api_keys = re.findall(r"AIzaSy[a-zA-Z0-9_-]{33}", os.environ.get('KeyArray'))
-        self.current_index = random.randint(0, len(self.api_keys) - 1)
+             self.api_keys = [key for key in config["KeyArray"] if re.match(r"AIzaSy[a-zA-Z0-9_-]{33}", key)]
+        elif isinstance(config["KeyArray"], str):
+            self.api_keys = [key for key in config["KeyArray"].splitlines() if re.match(r"AIzaSy[a-zA-Z0-9_-]{33}", key)]
+        else:
+            self.api_keys = []  # 或者根据需要处理 None 或其他类型
+        self.current_index = random.randint(0, len(self.api_keys) - 1) if self.api_keys else 0
 
     def get_available_key(self):
         num_keys = len(self.api_keys)
@@ -129,7 +153,7 @@ class APIKeyManager:
             if current_key not in api_key_blacklist:
                 return current_key
 
-        logger.error("所有API key都已耗尽或被暂时禁用，请重新配置或稍后重试")
+        logger.error("所有API key都已耗尽或被暂时禁用或没有任意一个有效API key，请重新配置或稍后重试。")
         return None
 
     def show_all_keys(self):
@@ -532,17 +556,7 @@ def keep_alive():
 
 if __name__ == '__main__':
 
-    # 检查配置文件是否存在
-    if not os.path.exists("env.json") and not os.path.exists(".env"):
-        print("错误：未找到配置文件 (env.json 或 .env)。请创建其中一个文件，并设置必要的环境变量。")
-        input("按 Enter 键退出...")  # 等待用户按键
-        exit(1)  # 退出程序
-    # 尝试读取
-    config = load_config()
-    if not config.get("KeyArray") or not config.get("password"):
-        print("错误：配置文件中缺少必要的环境变量 (KeyArray 和 password)。请确保已正确设置。")
-        input("按 Enter 键退出...")
-        exit(1)
+    config = load_config()  # load_config() 中已经处理了错误情况
 
     # 获取并设置代理 (如果需要)
     proxies = get_system_proxy()  # 或者 get_proxy()，如果你实现了方案三
