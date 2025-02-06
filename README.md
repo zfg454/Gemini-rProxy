@@ -6,7 +6,7 @@
 
 ## 简介
 
-本项目是一个 Google Gemini 模型的代理服务，基于 Flask 框架构建。绝大部分工作源于@Moonfanz，本人只是基于此提供了一个不止于docker的方案，做了点小小的工作。它提供了以下主要功能：
+本项目是一个 Google Gemini 模型的代理服务，基于 Flask 框架构建。绝大部分工作源于[@Moonfanzp](https://github.com/Moonfanz)，本人只是基于此提供了一个不止于docker的方案，做了点小小的工作。它提供了以下主要功能：
 
 *   **OpenAI API 兼容性：** 实现了 OpenAI Chat Completions API (`/v1/chat/completions`) 和 Models API (`/v1/models`)，方便与现有工具和库集成。
 *   **多 API 密钥管理：** 支持配置多个 Google API 密钥，自动轮换和禁用超限密钥，提高可用性。
