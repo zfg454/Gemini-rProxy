@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  gemini-proxy:
+    build: .
+    ports:
+      - "3000:3000"  # 将容器的 3000 端口映射到主机的 3000 端口
+    volumes:
+      - .:/app  # 将项目目录挂载到容器的 /app 目录 (用于开发)
+    environment:
+      - KeyArray=${KeyArray}
+      - MaxRetries=${MaxRetries:-3}
+      - MaxRequests=${MaxRequests:-2}
+      - LimitWindow=${LimitWindow:-60}
+      - password=${password}
+      - PORT=${PORT:-3000}
+      - http_proxy=${http_proxy}  # 可选，如果需要设置代理
+      - https_proxy=${https_proxy}  # 可选，如果需要设置代理

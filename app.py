@@ -213,7 +213,7 @@ os.environ["PORT"] = str(config.get("PORT", 7860))
 
 @app.route('/')
 def index():
-    github_url = "https://github.com/your_username/your_repository"  # 替换成你的 GitHub 仓库地址
+    github_url = "https://github.com/HerSophia/Gemini-rProxy"  # 替换成你的 GitHub 仓库地址
     models_html = "<ul>"
     for model in GEMINI_MODELS:
         models_html += f"<li>{model['id']}</li>"

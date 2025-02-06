@@ -115,6 +115,28 @@ python app.py
 
 请求和响应格式与 OpenAI API 基本兼容，但请注意，本项目是 Gemini 模型的代理，而不是 OpenAI 服务的代理。
 
+### Docker 方式（可选）
+1.  **构建镜像：**
+
+    ```bash
+    docker-compose build
+    ```
+
+2.  **运行容器：**
+
+    ```bash
+    docker-compose up
+    ```
+    首次运行，可以使用
+    ```bash
+     docker-compose up --build
+    ```
+    注意，你可能需要配置.env文件，或者使用
+    ```
+    KeyArray="AIzaSy..." password="your_password" docker-compose up --build
+    ```
+    来运行。
+
 ## 高级配置
 
 *   **安全设置：**  当前版本的代码中，安全设置被硬编码为全部禁用 (`BLOCK_NONE`)。如果需要修改安全设置，请直接编辑 `app.py` 文件中的 `safety_settings` 变量。
